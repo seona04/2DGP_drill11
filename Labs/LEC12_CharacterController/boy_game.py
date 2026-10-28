@@ -1,4 +1,5 @@
 from pico2d import *
+import time
 
 
 # Game object class here
@@ -29,23 +30,28 @@ class Idle:
 class AutoRun:
     def __init__(self):
         self.direction = 1
+        self.started_at = time.monotonic()
 
     def handle_event(self, boy, event):
         pass
 
     def update(self, boy):
+        if time.monotonic() - self.started_at >= 5:
+            boy.change_state(Idle())
+            return
+
         boy.update_animation()
-        boy.x += self.direction * 5
-        if boy.x >= 750:
-            boy.x = 750
+        boy.x += self.direction * 8
+        if boy.x >= 740:
+            boy.x = 740
             self.direction = -1
-        elif boy.x <= 50:
-            boy.x = 50
+        elif boy.x <= 60:
+            boy.x = 60
             self.direction = 1
         boy.face_dir = self.direction
 
     def draw(self, boy):
-        boy.draw_frame()
+        boy.draw_frame(size=120)
 
 
 class Boy:
@@ -71,11 +77,11 @@ class Boy:
     def draw(self):
         self.state.draw(self)
 
-    def draw_frame(self):
+    def draw_frame(self, size=100):
         if self.face_dir == 1:
-            self.image.clip_draw(self.frame * 100, 300, 100, 100, self.x, self.y)
+            self.image.clip_draw(self.frame * 100, 300, 100, 100, self.x, self.y, size, size)
         else:
-            self.image.clip_draw(self.frame * 100, 200, 100, 100, self.x, self.y)
+            self.image.clip_draw(self.frame * 100, 200, 100, 100, self.x, self.y, size, size)
 
 
 def handle_events():
