@@ -1,19 +1,9 @@
 from pico2d import *
 from auto_run import AutoRun
+from grass import Grass
 
 
 # Game object class here
-
-class Grass:
-    def __init__(self):
-        self.image = load_image('grass.png')
-
-    def draw(self):
-        self.image.draw(400, 30)
-
-    def update(self):
-        pass
-
 
 class Idle:
     def handle_event(self, boy, event):
