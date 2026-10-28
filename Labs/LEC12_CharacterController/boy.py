@@ -1,5 +1,8 @@
 from pico2d import *
-from auto_run import AutoRun
+from auto_run import AutoRun, CANVAS_WIDTH, EDGE_OVERSHOOT
+
+
+RUN_EDGE_OVERSHOOT = 0
 
 
 class Idle:
@@ -20,7 +23,10 @@ class Run:
 
     def update(self, boy):
         boy.update_animation()
-        boy.x = min(max(boy.x + self.direction * 5, 50), 750)
+        boy.x = min(
+            max(boy.x + self.direction * 5, -RUN_EDGE_OVERSHOOT),
+            CANVAS_WIDTH + RUN_EDGE_OVERSHOOT,
+        )
         boy.face_dir = self.direction
 
     def draw(self, boy):
