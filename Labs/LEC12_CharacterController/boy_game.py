@@ -32,9 +32,6 @@ class AutoRun:
         self.direction = 1
         self.started_at = time.monotonic()
 
-    def handle_event(self, boy, event):
-        pass
-
     def update(self, boy):
         if time.monotonic() - self.started_at >= 5:
             boy.change_state(Idle())
@@ -54,6 +51,19 @@ class AutoRun:
         boy.draw_frame(size=120)
 
 
+class Run:
+    def __init__(self, direction):
+        self.direction = direction
+
+    def update(self, boy):
+        boy.update_animation()
+        boy.x = min(max(boy.x + self.direction * 5, 50), 750)
+        boy.face_dir = self.direction
+
+    def draw(self, boy):
+        boy.draw_frame()
+
+
 class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
@@ -61,12 +71,26 @@ class Boy:
         self.face_dir = 1
         self.image = load_image('animation_sheet.png')
         self.state = Idle()
+        self.pressed_directions = []
 
     def update(self):
         self.state.update(self)
 
     def handle_event(self, event):
-        self.state.handle_event(self, event)
+        if event.type == SDL_KEYDOWN and event.key in (SDLK_LEFT, SDLK_RIGHT):
+            if event.key not in self.pressed_directions:
+                self.pressed_directions.append(event.key)
+            self.change_state(Run(-1 if event.key == SDLK_LEFT else 1))
+        elif event.type == SDL_KEYUP and event.key in (SDLK_LEFT, SDLK_RIGHT):
+            if event.key in self.pressed_directions:
+                self.pressed_directions.remove(event.key)
+            if self.pressed_directions:
+                direction = -1 if self.pressed_directions[-1] == SDLK_LEFT else 1
+                self.change_state(Run(direction))
+            else:
+                self.change_state(Idle())
+        elif isinstance(self.state, Idle):
+            self.state.handle_event(self, event)
 
     def change_state(self, state):
         self.state = state
