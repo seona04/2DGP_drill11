@@ -39,16 +39,16 @@ class AutoRun:
 
         boy.update_animation()
         boy.x += self.direction * 8
-        if boy.x >= 740:
-            boy.x = 740
+        if boy.x >= 710:
+            boy.x = 710
             self.direction = -1
-        elif boy.x <= 60:
-            boy.x = 60
+        elif boy.x <= 90:
+            boy.x = 90
             self.direction = 1
         boy.face_dir = self.direction
 
     def draw(self, boy):
-        boy.draw_frame(size=120)
+        boy.draw_frame(size=180)
 
 
 class Run:
