@@ -2,6 +2,7 @@ import time
 
 
 CANVAS_WIDTH = 800
+EDGE_OVERSHOOT = 20
 
 
 class AutoRun:
@@ -16,11 +17,11 @@ class AutoRun:
 
         boy.update_animation()
         boy.x += self.direction * 8
-        if boy.x >= CANVAS_WIDTH:
-            boy.x = CANVAS_WIDTH
+        if boy.x >= CANVAS_WIDTH + EDGE_OVERSHOOT:
+            boy.x = CANVAS_WIDTH + EDGE_OVERSHOOT
             self.direction = -1
-        elif boy.x <= 0:
-            boy.x = 0
+        elif boy.x <= -EDGE_OVERSHOOT:
+            boy.x = -EDGE_OVERSHOOT
             self.direction = 1
         boy.face_dir = self.direction
 
