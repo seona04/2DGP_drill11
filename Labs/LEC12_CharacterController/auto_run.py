@@ -1,6 +1,9 @@
 import time
 
 
+CANVAS_WIDTH = 800
+
+
 class AutoRun:
     def __init__(self):
         self.direction = 1
@@ -13,11 +16,11 @@ class AutoRun:
 
         boy.update_animation()
         boy.x += self.direction * 8
-        if boy.x >= 710:
-            boy.x = 710
+        if boy.x >= CANVAS_WIDTH:
+            boy.x = CANVAS_WIDTH
             self.direction = -1
-        elif boy.x <= 90:
-            boy.x = 90
+        elif boy.x <= 0:
+            boy.x = 0
             self.direction = 1
         boy.face_dir = self.direction
 
