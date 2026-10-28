@@ -25,4 +25,4 @@ class AutoRun:
         boy.face_dir = self.direction
 
     def draw(self, boy):
-        boy.draw_frame(size=180)
+        boy.draw_frame(size=180, running=True)

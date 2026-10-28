@@ -24,7 +24,7 @@ class Run:
         boy.face_dir = self.direction
 
     def draw(self, boy):
-        boy.draw_frame()
+        boy.draw_frame(running=True)
 
 
 class Boy:
@@ -67,8 +67,9 @@ class Boy:
     def draw(self):
         self.state.draw(self)
 
-    def draw_frame(self, size=100):
-        if self.face_dir == 1:
-            self.image.clip_draw(self.frame * 100, 300, 100, 100, self.x, self.y, size, size)
+    def draw_frame(self, size=100, running=False):
+        if running:
+            row = 100 if self.face_dir == 1 else 0
         else:
-            self.image.clip_draw(self.frame * 100, 200, 100, 100, self.x, self.y, size, size)
+            row = 300 if self.face_dir == 1 else 200
+        self.image.clip_draw(self.frame * 100, row, 100, 100, self.x, self.y, size, size)
